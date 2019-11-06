@@ -1,5 +1,6 @@
 using ComercioOnline.Model;
 using ComercioOnline.Model.Utilitarios;
+using ComercioOnline.Teste.Utilitarios;
 using dn32.infraestrutura;
 using dn32.infraestrutura.Constantes;
 using dn32.infraestrutura.Fabrica;
@@ -14,22 +15,12 @@ namespace ComercioOnline.Teste
     {
         public override void InicializarInfraestrutura()
         {
-            var parametrosDeInicializacao = new ParametrosDeInicializacao
-            {
-                EnderecoDeBackupDoBancoDeDados = "c:/ravendb-backup",
-                EnderecoDoBancoDeDados = "http://localhost:8080",
-                NomeDoAssemblyDaValidacao = "ComercioOnline.Validacao",
-                NomeDoAssemblyDoRepositorio = "ComercioOnline.Teste",
-                NomeDoAssemblyDoServico = "ComercioOnline.Teste",
-                NomeDoBancoDeDados = "ComercioOnline"
-            };
-
-            Inicializar.Inicialize(parametrosDeInicializacao);
+            UtilitariosDeTeste.InicializarInfraestrutura();
         }
 
         #region CADASTRO
-        [Fact(DisplayName = nameof(CadastroTeste))]
-        public void CadastroTeste()
+        [Fact(DisplayName = nameof(ProdutoCadastroTeste))]
+        public void ProdutoCadastroTeste()
         {
             var servico = FabricaDeServico.Crie<Produto>();
             var produto = CadastreUmProduto();
@@ -39,8 +30,8 @@ namespace ComercioOnline.Teste
             servico.Remova(produto.Codigo);
         }
 
-        [Fact(DisplayName = nameof(CadastroSemValorErroTeste))]
-        public void CadastroSemValorErroTeste()
+        [Fact(DisplayName = nameof(ProdutoCadastroSemValorErroTeste))]
+        public void ProdutoCadastroSemValorErroTeste()
         {
             var servico = FabricaDeServico.Crie<Produto>();
             var produto = ObtenhaUmProduto();
@@ -54,8 +45,8 @@ namespace ComercioOnline.Teste
             Assert.Equal(ConstantesValidacaoModel.O_VALOR_DO_PRODUTO_EH_OBRIGATORIO, ex.Message);
         }
 
-        [Fact(DisplayName = nameof(CadastroSemNomeErroTeste))]
-        public void CadastroSemNomeErroTeste()
+        [Fact(DisplayName = nameof(ProdutoCadastroSemNomeErroTeste))]
+        public void ProdutoCadastroSemNomeErroTeste()
         {
             var servico = FabricaDeServico.Crie<Produto>();
             var produto = ObtenhaUmProduto();
@@ -71,8 +62,8 @@ namespace ComercioOnline.Teste
         #endregion
 
         #region CONSULTA
-        [Fact(DisplayName = nameof(ConsultaTeste))]
-        public void ConsultaTeste()
+        [Fact(DisplayName = nameof(ProdutoConsultaTeste))]
+        public void ProdutoConsultaTeste()
         {
             var servico = FabricaDeServico.Crie<Produto>();
             var produto = CadastreUmProduto();
@@ -87,8 +78,8 @@ namespace ComercioOnline.Teste
         #endregion
 
         #region ATUALIZAÇÃO
-        [Fact(DisplayName = nameof(AtualizacaoSemValorErroTeste))]
-        public void AtualizacaoSemValorErroTeste()
+        [Fact(DisplayName = nameof(ProdutoAtualizacaoSemValorErroTeste))]
+        public void ProdutoAtualizacaoSemValorErroTeste()
         {
             var servico = FabricaDeServico.Crie<Produto>();
             var produto = CadastreUmProduto();
@@ -103,8 +94,8 @@ namespace ComercioOnline.Teste
             servico.Remova(produto.Codigo);
         }
 
-        [Fact(DisplayName = nameof(AtualizacaoSemNomeErroTeste))]
-        public void AtualizacaoSemNomeErroTeste()
+        [Fact(DisplayName = nameof(ProdutoAtualizacaoSemNomeErroTeste))]
+        public void ProdutoAtualizacaoSemNomeErroTeste()
         {
             var servico = FabricaDeServico.Crie<Produto>();
             var produto = ObtenhaUmProduto();
