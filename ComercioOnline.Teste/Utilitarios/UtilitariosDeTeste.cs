@@ -15,7 +15,7 @@ namespace ComercioOnline.Teste.Utilitarios
                 EnderecoDeBackupDoBancoDeDados = "c:/ravendb-backup",
                 EnderecoDoBancoDeDados = "http://localhost:8080",
                 NomeDoAssemblyDaValidacao = "ComercioOnline.Validacao",
-                NomeDoAssemblyDoRepositorio = "ComercioOnline.Teste",
+                NomeDoAssemblyDoRepositorio = "ComercioOnline.Repositorio",
                 NomeDoAssemblyDoServico = "ComercioOnline.Servico",
                 NomeDoBancoDeDados = "ComercioOnline"
             };

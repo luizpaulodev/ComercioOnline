@@ -33,13 +33,12 @@ namespace ComercioOnline.Teste
         [Fact(DisplayName = nameof(ProdutoCadastroSemValorErroTeste))]
         public void ProdutoCadastroSemValorErroTeste()
         {
-            var servico = FabricaDeServico.Crie<Produto>();
             var produto = ObtenhaUmProduto();
             produto.Valor = 0;
 
             var ex = Assert.Throws<Exception>(() =>
             {
-                servico.Cadastre(produto);
+                Servico.Cadastre(produto);
             });
 
             Assert.Equal(ConstantesValidacaoModel.O_VALOR_DO_PRODUTO_EH_OBRIGATORIO, ex.Message);
@@ -48,13 +47,12 @@ namespace ComercioOnline.Teste
         [Fact(DisplayName = nameof(ProdutoCadastroSemNomeErroTeste))]
         public void ProdutoCadastroSemNomeErroTeste()
         {
-            var servico = FabricaDeServico.Crie<Produto>();
             var produto = ObtenhaUmProduto();
             produto.Nome = string.Empty;      
 
             var ex = Assert.Throws<Exception>(() =>
             {
-                servico.Cadastre(produto);
+                Servico.Cadastre(produto);
             });
 
             Assert.Equal(ConstantesDeValidacao.O_NOME_DO_ELEMENTO_DEVE_SER_INFORMADO, ex.Message);
@@ -65,15 +63,14 @@ namespace ComercioOnline.Teste
         [Fact(DisplayName = nameof(ProdutoConsultaTeste))]
         public void ProdutoConsultaTeste()
         {
-            var servico = FabricaDeServico.Crie<Produto>();
             var produto = CadastreUmProduto();
                         
-            var produtoDoBanco = servico.Consulte(produto.Codigo);
+            var produtoDoBanco = Servico.Consulte(produto.Codigo);
 
             var ehIgual = Compare(produto, produtoDoBanco, nameof(Produto.DataDeAtualizacao), nameof(Produto.DataDeCadastro));
 
             Assert.True(ehIgual);
-            servico.Remova(produto.Codigo);
+            Servico.Remova(produto.Codigo);
         }
         #endregion
 
@@ -81,37 +78,35 @@ namespace ComercioOnline.Teste
         [Fact(DisplayName = nameof(ProdutoAtualizacaoSemValorErroTeste))]
         public void ProdutoAtualizacaoSemValorErroTeste()
         {
-            var servico = FabricaDeServico.Crie<Produto>();
             var produto = CadastreUmProduto();
             produto.Valor = 0;
 
             var ex = Assert.Throws<Exception>(() =>
             {
-                servico.Atualize(produto);
+                Servico.Atualize(produto);
             });
 
             Assert.Equal(ConstantesValidacaoModel.O_VALOR_DO_PRODUTO_EH_OBRIGATORIO, ex.Message);
-            servico.Remova(produto.Codigo);
+            Servico.Remova(produto.Codigo);
         }
 
         [Fact(DisplayName = nameof(ProdutoAtualizacaoSemNomeErroTeste))]
         public void ProdutoAtualizacaoSemNomeErroTeste()
         {
-            var servico = FabricaDeServico.Crie<Produto>();
             var produto = ObtenhaUmProduto();
             produto.Nome = string.Empty;
 
             var ex = Assert.Throws<Exception>(() =>
             {
-                servico.Atualize(produto);
+                Servico.Atualize(produto);
             });
 
             Assert.Equal(ConstantesDeValidacao.O_NOME_DO_ELEMENTO_DEVE_SER_INFORMADO, ex.Message);
-            servico.Remova(produto.Codigo);
+            Servico.Remova(produto.Codigo);
         }
         #endregion
 
-        #region MÉTODOS PRIVADOS
+        #region MÉTODOS ESTATICOS
         public static void Remova(int codigo)
         {
             var servico = FabricaDeServico.Crie<Produto>();

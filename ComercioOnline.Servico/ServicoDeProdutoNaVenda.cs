@@ -45,11 +45,8 @@ namespace ComercioOnline.Servico
 
         public override void Remova(int codigo)
         {
-            var servicoProduto = FabricaDeServico.Crie<Produto>();
-            var servicoVenda = FabricaDeServico.Crie<Venda>();
-
-            
-
+            //var servicoProduto = FabricaDeServico.Crie<Produto>();
+            //var servicoVenda = FabricaDeServico.Crie<Venda>();
             base.Remova(codigo);
         }
     }

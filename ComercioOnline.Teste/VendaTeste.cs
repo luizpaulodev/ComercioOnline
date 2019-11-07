@@ -1,10 +1,9 @@
 ﻿using ComercioOnline.Model;
+using ComercioOnline.Model.Utilitarios;
+using ComercioOnline.Servico;
 using ComercioOnline.Teste.Utilitarios;
 using dn32.infraestrutura.Fabrica;
 using dn32.infraestrutura.Generico;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using Xunit;
 
 namespace ComercioOnline.Teste
@@ -20,11 +19,10 @@ namespace ComercioOnline.Teste
         [Fact(DisplayName = nameof(VendaCadastroTeste))]
         public void VendaCadastroTeste()
         {
-            var servico = FabricaDeServico.Crie<Venda>();
             var venda = CadastreUmaVenda();
 
             Assert.NotEqual(0, venda.Codigo);
-            servico.Remova(venda.Codigo);
+            Servico.Remova(venda.Codigo);
         }
         #endregion
 
@@ -32,17 +30,66 @@ namespace ComercioOnline.Teste
         [Fact(DisplayName = nameof(VendaConsultaTeste))]
         public void VendaConsultaTeste()
         {
-            var servico = FabricaDeServico.Crie<Venda>();
             var venda = CadastreUmaVenda();
-            var vendaBancoDeDados = servico.Consulte(venda.Codigo);
+            var vendaBancoDeDados = Servico.Consulte(venda.Codigo);
             var ehIgual = Compare(venda, vendaBancoDeDados, nameof(Venda.DataDeAtualizacao), nameof(Venda.DataDeCadastro));
 
             Assert.True(ehIgual);
-            servico.Remova(venda.Codigo);
+            Servico.Remova(venda.Codigo);
         }
         #endregion
 
-        #region METODOS PRIVADOS
+        #region FINALIZAR VENDA
+        [Fact(DisplayName = nameof(FinalizeAVenda))]
+        public void FinalizeAVenda()
+        {
+            var venda = CadastreUmaVenda();
+            var produto1 = ProdutoTeste.CadastreUmProduto();
+            var produto2 = ProdutoTeste.CadastreUmProduto();
+            var produtoNaVenda1 = ProdutoNaVendaTeste.CadastreUmProdutoNaVenda(venda, produto1, 1);
+            var produtoNaVenda2 = ProdutoNaVendaTeste.CadastreUmProdutoNaVenda(venda, produto2, 1);
+
+            var servico = Servico as ServicoDeVenda;
+            servico.FinalizeVenda(venda);
+            
+            Servico.Remova(venda.Codigo);
+            ProdutoTeste.Remova(produto1.Codigo);
+            ProdutoTeste.Remova(produto2.Codigo);
+        }
+
+        [Fact(DisplayName = nameof(FinalizeAVendaCalculandoDescontoEValorTotal))]
+        public void FinalizeAVendaCalculandoDescontoEValorTotal()
+        {
+            var venda = CadastreUmaVenda();
+            var produto1 = ProdutoTeste.CadastreUmProduto();
+            var produto2 = ProdutoTeste.CadastreUmProduto();
+            var produtoNaVenda1 = ProdutoNaVendaTeste.CadastreUmProdutoNaVenda(venda, produto1, 11);
+            var produtoNaVenda2 = ProdutoNaVendaTeste.CadastreUmProdutoNaVenda(venda, produto2, 2);
+
+            var servico = Servico as ServicoDeVenda;
+            servico.FinalizeVenda(venda);
+
+            var produtosSalvos = servico.ObtenhaProdutosDaVenda(venda);
+
+            var descontoTotal = 0m;
+            var valorTotal = 0m;
+
+            foreach (var produto in produtosSalvos)
+            {
+                descontoTotal += produto.Desconto;
+                valorTotal += produto.ValorTotal;
+            }
+
+            Assert.Equal(descontoTotal, venda.DescontoTotal);
+            Assert.Equal(valorTotal, venda.ValorTotal);
+
+            Servico.Remova(venda.Codigo);
+            ProdutoTeste.Remova(produto1.Codigo);
+            ProdutoTeste.Remova(produto2.Codigo);
+        }
+        #endregion
+
+        #region METODOS ESTATICOS
         public static void Remova(int codigo)
         {
             var servico = FabricaDeServico.Crie<Venda>();

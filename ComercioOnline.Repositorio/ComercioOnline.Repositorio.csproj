@@ -12,8 +12,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ComercioOnline.Model\ComercioOnline.Model.csproj" />
-    <ProjectReference Include="..\ComercioOnline.Repositorio\ComercioOnline.Repositorio.csproj" />
-    <ProjectReference Include="..\ComercioOnline.Validacao\ComercioOnline.Validacao.csproj" />
   </ItemGroup>
 
 </Project>
