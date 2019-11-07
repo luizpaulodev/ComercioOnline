@@ -16,7 +16,7 @@ namespace ComercioOnline.Teste.Utilitarios
                 EnderecoDoBancoDeDados = "http://localhost:8080",
                 NomeDoAssemblyDaValidacao = "ComercioOnline.Validacao",
                 NomeDoAssemblyDoRepositorio = "ComercioOnline.Teste",
-                NomeDoAssemblyDoServico = "ComercioOnline.Teste",
+                NomeDoAssemblyDoServico = "ComercioOnline.Servico",
                 NomeDoBancoDeDados = "ComercioOnline"
             };
 

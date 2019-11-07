@@ -43,7 +43,13 @@ namespace ComercioOnline.Teste
         #endregion
 
         #region METODOS PRIVADOS
-        private Venda CadastreUmaVenda()
+        public static void Remova(int codigo)
+        {
+            var servico = FabricaDeServico.Crie<Venda>();
+            servico.Remova(codigo);
+        }
+
+        public static Venda CadastreUmaVenda()
         {
             var servico = FabricaDeServico.Crie<Venda>();
             var venda = ObtenhaUmaVenda();
@@ -51,7 +57,7 @@ namespace ComercioOnline.Teste
             return venda;
         }
 
-        private Venda ObtenhaUmaVenda()
+        public static Venda ObtenhaUmaVenda()
         {
             return new Venda
             {

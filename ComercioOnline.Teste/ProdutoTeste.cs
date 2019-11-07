@@ -112,7 +112,13 @@ namespace ComercioOnline.Teste
         #endregion
 
         #region MÉTODOS PRIVADOS
-        private static Produto ObtenhaUmProduto()
+        public static void Remova(int codigo)
+        {
+            var servico = FabricaDeServico.Crie<Produto>();
+            servico.Remova(codigo);
+        }
+
+        public static Produto ObtenhaUmProduto()
         {
             return new Produto
             {
@@ -122,7 +128,7 @@ namespace ComercioOnline.Teste
             };
         }
 
-        private static Produto CadastreUmProduto()
+        public static Produto CadastreUmProduto()
         {
             var servico = FabricaDeServico.Crie<Produto>();
             var produto = ObtenhaUmProduto();
